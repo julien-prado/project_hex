@@ -1,0 +1,12 @@
+{
+  "name": "project_hex",
+  "description":"module loader",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node module.js"
+  },
+  "dependencies": {
+    "redis": "^0.12.1",
+    "nconf": "^0.7.1"
+  }
+}

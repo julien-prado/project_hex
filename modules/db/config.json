@@ -1,0 +1,5 @@
+{
+	"MONGOD":{
+		"url" : "mongodb://localhost/game"
+	}
+}

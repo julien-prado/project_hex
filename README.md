@@ -1,4 +1,4 @@
-#AerishaEngine
+#Project Hex
 Prototype of a Hexagon based game with a map editor
 
 ##Feature
@@ -30,7 +30,9 @@ Prototype of a Hexagon based game with a map editor
 - [x] manipulate view(zoom/pan/click)
 - [x] add filter view
 
+##in progress
+- [ ] map editing
+
 ##TODO
-- [-] map editing
 - [ ] character creation/editing
 - [ ] implementation of game object, such as building, tech tree, organisation
