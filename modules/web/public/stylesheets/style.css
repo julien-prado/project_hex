@@ -35,10 +35,7 @@ nav{
 .links>a,.login>a{
 	margin: 20px 20px 20px 20px;
 }
-main,main>div{
-	display : flex;
-	flex-direction: row;
-	align-items: stretch;
+main{
 	flex: 1;
 }
 .footer{

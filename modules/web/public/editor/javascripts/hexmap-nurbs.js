@@ -150,7 +150,7 @@ if( Hexmap == undefined)
 							layer.points[p.q+":"+p.r] = {
 								r:p.r,
 								q:p.q,
-								x: option.RADIUS + option.RADIUS * SQRT3 * (p.q + p.r/2),
+								x: option.RADIUS + option.RADIUS * Math.SQRT3 * (p.q + p.r/2),
 								y: option.RADIUS + option.RADIUS * 3/2 * p.r,
 								radius: option.RADIUS,
 								fill:style.BIOME[Math.floor(p.h)+10]
@@ -164,7 +164,7 @@ if( Hexmap == undefined)
 							layer.points[p.q+":"+p.r] = {
 								r:p.r,
 								q:p.q,
-								x: option.RADIUS * SQRT3 * (p.q + p.r/2),
+								x: option.RADIUS * Math.SQRT3 * (p.q + p.r/2),
 								y: option.RADIUS * 3/2 * p.r,
 								size: option.RADIUS * 2,
 								fill:imagesLoaded.star
@@ -173,7 +173,7 @@ if( Hexmap == undefined)
 						break;
 					};
 					case 'border':{
-						var R = option.RADIUS/SQRT3;
+						var R = option.RADIUS/Math.SQRT3;
 						for(var i in map.layers[l].points){
 							var p = map.layers[l].points[i];
 							layer.points[p.id] = {
@@ -185,9 +185,9 @@ if( Hexmap == undefined)
 								b_r:p.b_r,
 								b_q:p.b_q,
 								a_x: 4 + R * 3/2 * p.a_r,
-								a_y: 2-R + R * SQRT3 * (p.a_q + p.a_r/2),
+								a_y: 2-R + R * Math.SQRT3 * (p.a_q + p.a_r/2),
 								b_x: 4 + R * 3/2 * p.b_r,
-								b_y: 2-R + R * SQRT3 * (p.b_q + p.b_r/2),
+								b_y: 2-R + R * Math.SQRT3 * (p.b_q + p.b_r/2),
 								fill:'red'
 							};
 						}
@@ -199,7 +199,7 @@ if( Hexmap == undefined)
 							layer.points[p.q+":"+p.r] = {
 								r:p.r,
 								q:p.q,
-								x: option.RADIUS * SQRT3 * (p.q + p.r/2),
+								x: option.RADIUS * Math.SQRT3 * (p.q + p.r/2),
 								y: option.RADIUS * 3/2 * p.r,
 								size: option.RADIUS*2,
 								fill:imagesLoaded.star
@@ -212,11 +212,11 @@ if( Hexmap == undefined)
 		}
 		return view;
 	};
-	this.getHexInRange=function(center, range, set){
+	this.getRadialBrush=function(center, range, set){
 		var result=[];
 		for(var dq = -range;dq <= range;dq++){
 			for(var dr=Math.max(-range,-dq-range);dr<=Math.min(range,-dq+range);dr++){				
-				result.push({q:center.q+dq,r:center.r+dr});
+				result.push({q:center.q+dq,r:center.r+dr,h:set.h});
 			}
 		}
 		return result;
@@ -252,12 +252,11 @@ if( Hexmap == undefined)
 		function getBiomeColor(height,moist){
 			return BIOME[Math.clamp(Math.floor(height/2),0,4)][Math.clamp(Math.floor((1+moist)/4),0,4)];
 		}
-		var SQRT3=Math.sqrt(3);
 		
 		p.apply = function (p){
 			p.view={
 				fill:BIOME[Math.floor(p.h)+10],
-				x:RADIUS+RADIUS * SQRT3 * (p.q + p.r/2),
+				x:RADIUS+RADIUS * Math.SQRT3 * (p.q + p.r/2),
 				y:RADIUS+RADIUS * 3/2 * p.r
 			}
 			return p;

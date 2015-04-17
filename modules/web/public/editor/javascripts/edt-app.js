@@ -1,6 +1,6 @@
 "use strict";
 (function(){
-var app = angular.module('app',['ui.bootstrap','ngRoute'])
+var app = angular.module('app')
 
 app.factory('socket', function ($rootScope) {
   var socket = io.connect('/editor');

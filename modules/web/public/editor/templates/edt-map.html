@@ -29,12 +29,35 @@
 			</div>
 		</div>
 	</div>
-	<div class="well brusharea">
+	<brush-box class="well brusharea">
 		<label >Brush</label>
+		<div>
+			<label>radius</label><input min='0' max='5' ng-model='brushRadius' type='number'/>
+		</div>
+		<div class="flexBoxCol">
+			<div class="flex-1">
+				<label>
+					<input type="radio" name="optbrush" ng-click=""> additif
+				</label>
+			</div>
+			<div class="flex-1">
+				<label>
+					<input type="radio" name="optbrush" ng-click=""> multiplicatif
+				</label>
+			</div>
+			<div class="flex-1">
+				<label>
+					<input type="radio" name="optbrush" ng-click=""> replace
+				</label>
+			</div>
+		</div>
 		<brush-canvas></brush-canvas>
-	</div>
+	</brush-box>
 </div>
-<drawarea-canvas class="drawarea" view="view" focus="focus" toggledLayers="toggledLayers"></drawarea-canvas>
+<div class="flex-3 flexBoxCol">
+	<div><span>hold space to drag, ctrl to erase</span><button>Apply Bufer</button><button>clear Buffer</button></div>
+	<drawarea-canvas class="flex-1 drawarea" view="view" focus="focus" toggledLayers="toggledLayers"></drawarea-canvas>
+</div>
 <div class="edit-box">
 	<div class="well">
 		<a href>Info</a><label>{{focused._id}}</label>

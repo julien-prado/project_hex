@@ -1,13 +1,18 @@
-
+main,main>div{
+	display : flex;
+	flex-direction: row;
+	align-items: stretch;
+	flex: 1;
+}
 .editor-menu{
 	background-color:rgba(147,0,108,.1);
-	min-height:50px;
+	min-height:30px;
 	display : flex;
 	flex-direction: row;
 	align-items: center;
 }
-.editor-menu a{
-	margin: 20px 20px 20px 20px;
+.menu-icon{
+	margin: 5px 20px ;
 }
 editor-map{
 	display : flex;
@@ -20,7 +25,6 @@ editor-map{
 .drawarea{
 	border-color:black;
 	border-style:dotted;
-	flex:3;
 }
 .brusharea{
 	display : flex;
@@ -31,5 +35,20 @@ editor-map{
 	flex:1;
 	border-color:black;
 	border-style:dotted;
-
+}
+.flexBoxRow{
+	display : flex;
+	flex-direction: row;
+	flex:1;
+}
+.flexBoxCol{
+	display : flex;
+	flex-direction: column;
+	flex:1;
+}
+.flex-1{
+	flex:1;
+}
+.flex-3{
+	flex:3;
 }
