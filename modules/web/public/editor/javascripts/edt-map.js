@@ -53,7 +53,7 @@ app.directive('brushCanvas',function(){
 				}
 				groupK.x(values.width/2);
 				groupK.y(values.height/2);
-				groupK.cache();
+				groupK.cache({drawBorder:true});
 			}
 			function initForegrid(stage,values){
 				var kLayer = new Konva.Layer();
@@ -177,8 +177,8 @@ app.directive('drawareaCanvas',function(){
 				
 			
 			function initStage(option){
-					stage.scaleX(getRootWidth()/sceneWidth);
-					stage.scaleY(getRootWidth()/sceneWidth);
+				stage.scaleX(getRootWidth()/sceneWidth);
+				stage.scaleY(getRootWidth()/sceneWidth);
 			}
 			
 			
@@ -214,9 +214,9 @@ app.directive('drawareaCanvas',function(){
 			
 			// generate hexes
 			function initMapLayer(layerData){
-				var mapLayer = new Konva.Group({listening : false});
-				updateMapLayer(mapLayer,layerData);
+				var mapLayer = new Konva.Group({x:0,y:0,width:sceneWidth,height:sceneHeight,listening : false});
 				background.add(mapLayer);
+				updateMapLayer(mapLayer,layerData);
 				mapLayers.push(mapLayer);
 				$scope.$watch(layerData, function(newVals, oldVals) {
 					if (newVals==undefined) return;
@@ -251,13 +251,13 @@ app.directive('drawareaCanvas',function(){
 					case 'terrain':{
 						for(var p in layer.points){
 							var curr = layer.points[p];
-							mapLayer.add(new Konva.Image({
-								width: curr.size,
-								height: curr.size,
+							mapLayer.add(new Konva.RegularPolygon({
 								id: p,
+								sides: 6,
 								x: curr.x,
 								y: curr.y,
-								image : curr.fill
+								radius:5,
+								fill:'red'
 							}));
 						}
 						break;
@@ -289,12 +289,12 @@ app.directive('drawareaCanvas',function(){
 						break;
 					};
 				};
-				// if(mapLayer.hasChildren())
-					// mapLayer.cache();
+				if(mapLayer.hasChildren())
+					mapLayer.cache();
 			}
 			
-			var foregridHex = new Konva.Group();
 			var foregridBuffer = new Konva.Group();
+			var foregridHex = new Konva.Group();
 			var foregridPoint = new Konva.Group();
 			var foregridGroup = new Konva.Group();
 			var cursorHex = new Konva.Group();
@@ -311,8 +311,6 @@ app.directive('drawareaCanvas',function(){
 					cursorHex.destroyChildren();
 					for(var i=0,len=newVals.length; i<len; i++){
 						var poly = new Konva.RegularPolygon({
-							q: newVals[i].q,
-							r: newVals[i].r,
 							id: newVals[i].q+":"+newVals[i].r,
 							x: values.RADIUS * Math.SQRT3 * (newVals[i].q + newVals[i].r/2),
 							y: values.RADIUS * 3/2 * newVals[i].r,
@@ -372,13 +370,15 @@ app.directive('drawareaCanvas',function(){
 					foreground.draw();
 				}
 				
-				function foregridGroup_click_tap_mousedown(evt){
+				function foregridHex_click_tap_mousedown(evt){
 					console.log(editState);
+					var target = evt.target;
+					var coord=evt.target.id().split(':');
+					var Q = parseInt(coord[0]);
+					var R = parseInt(coord[1]);
 					switch(editState){
 						case 'edit':{
-							var target = evt.target;
-							console.log(target.q,target.r);
-							var result = $scope.applyBrush((target.q-target.r)/3,(target.q+2*target.r)/3);
+							var result = $scope.applyBrush((Q-R)/3,(Q+2*R)/3);
 							for(var i=0,len=result.length; i<len; i++){
 								var f=bufferLayer.findOne('#'+result[i].id)
 								if(f==undefined){
@@ -404,28 +404,11 @@ app.directive('drawareaCanvas',function(){
 							break;
 						}
 						case 'remove':{
-							var target = evt.target;
-							console.log(target.q,target.r);
-							var result = $scope.applyBrush((target.q-target.r)/3,(target.q+2*target.r)/3);
+							var result = $scope.applyBrush((Q-R)/3,(Q+2*R)/3);
 							for(var i=0,len=result.length; i<len; i++){
 								var f=bufferLayer.findOne('#'+result[i].id)
-								if(f==undefined){
-									var poly = new Konva.RegularPolygon({
-										q:result[i].q,
-										r:result[i].r,
-										id: result[i].id,
-										x: values.RADIUS + values.RADIUS * Math.SQRT3 * (result[i].q + result[i].r/2),
-										y: values.RADIUS + values.RADIUS * 3/2 * result[i].r,
-										sides: 6,
-										opacity: 0.5,
-										radius: values.RADIUS,
-										stroke: 'red',
-										strokeWidth: 1,
-										fill: result[i].fill
-									});
-									bufferLayer.add(poly);
-								}else{
-									f.fill(result[i].fill);
+								if(f!=undefined){
+									f.destroy();
 								}
 							}
 							bufferLayer.draw();
@@ -443,8 +426,8 @@ app.directive('drawareaCanvas',function(){
 							id: q+":"+r,
 							x: x,
 							y: y,
-							radius: 2,
-							opacity:0.5,
+							radius: 5,
+							opacity:0.1,
 							fill: 'red'
 						}));
 						if(((q-r)/3)%1 == 0 && ((q+2*r)/3)%1 == 0){
@@ -456,7 +439,7 @@ app.directive('drawareaCanvas',function(){
 								y: y,
 								sides: 6,
 								radius: radius,
-								opacity:0,
+								opacity:0.1,
 								fill: 'grey'
 							}));
 						}
@@ -465,7 +448,7 @@ app.directive('drawareaCanvas',function(){
 				
 				foregridGroup.on('mouseover', foregridGroup_mouseover);
 				foregridGroup.on('mouseout', foregridGroup_mouseout);
-				foreground.on('mousedown',foregridGroup_click_tap_mousedown);
+				foregridHex.on('mousedown',foregridHex_click_tap_mousedown);
 				
 				foregridPoint.cache();
 				foregridHex.cache();

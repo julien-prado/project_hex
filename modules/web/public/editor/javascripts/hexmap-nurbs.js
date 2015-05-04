@@ -164,8 +164,8 @@ if( Hexmap == undefined)
 							layer.points[p.q+":"+p.r] = {
 								r:p.r,
 								q:p.q,
-								x: option.RADIUS * Math.SQRT3 * (p.q + p.r/2),
-								y: option.RADIUS * 3/2 * p.r,
+								x: option.RADIUS + option.RADIUS * Math.SQRT3 * (p.q + p.r/2),
+								y: option.RADIUS + option.RADIUS * 3/2 * p.r,
 								size: option.RADIUS * 2,
 								fill:imagesLoaded.star
 							};

@@ -31,17 +31,20 @@ block contents
   div(ng-view)
 
 block scripts
-    script(src="javascripts/edt-app.js")
+    
 
     script(src="https://cdn.socket.io/socket.io-1.2.1.js")
     script(src="/javascripts/vendors/konva.min.js")
-      
-      //custom libraries
     script(src="javascripts/vendors/verb.js")
     script(src="javascripts/vendors/simplex-noise.min.js")
     script(src="javascripts/vendors/alea.js")
+   
+    //custom libraries
+    script(src="/javascripts/utils-hexagon.js")
     script(src="javascripts/hexmap-generator.js")
     script(src="javascripts/hexmap-nurbs.js")
+
     //editor
+    script(src="javascripts/edt-app.js")
     script(src="javascripts/edt-map.js")
     script(src="javascripts/edt-char.js")
